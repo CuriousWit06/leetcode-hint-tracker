@@ -98,3 +98,33 @@ def get_submissions_for_problem(questionSlug):
         variables["offset"] += variables["limit"]
         time.sleep(0.8)
     return results
+
+def get_submission_details(submission_id):
+    headers, cookies = get_auth()
+    operationName = "submissionDetails"
+    query = """
+query submissionDetails($submissionId: Int!) {\n  submissionDetails(submissionId: $submissionId) {\n    runtime\n    runtimeDisplay\n    runtimePercentile\n    runtimeDistribution\n    memory\n    memoryDisplay\n    memoryPercentile\n    memoryDistribution\n    code\n    timestamp\n    statusCode\n    aiJudgeMessage\n    isCompiledLang\n    aiRecheckSubmitted\n    user {\n      username\n      profile {\n        realName\n        userAvatar\n      }\n    }\n    lang {\n      name\n      verboseName\n    }\n    question {\n      questionId\n      titleSlug\n      hasFrontendPreview\n    }\n    notes\n    flagType\n    topicTags {\n      tagId\n      slug\n      name\n    }\n    runtimeError\n    compileError\n    lastTestcase\n    codeOutput\n    expectedOutput\n    totalCorrect\n    totalTestcases\n    fullCodeOutput\n    testDescriptions\n    testBodies\n    testInfo\n    stdOutput\n  }\n}\n
+    """
+    variables = {
+        "submissionId": submission_id
+    }
+    response = requests.post(
+        "https://leetcode.com/graphql",
+        headers = headers,
+        cookies = cookies,
+        json = {
+            "query": query,
+            "variables": variables,
+            "operationName": operationName
+        }
+    )
+    response = response.json()
+    data = response['data']['submissionDetails']
+    return {
+        "code": data['code'],
+        "runtimeError": data['runtimeError'],
+        "compileError": data['compileError'],
+        "lastTestcase": data['lastTestcase'],
+        "expectedOutput": data['expectedOutput'],
+        "codeOutput": data['codeOutput']
+    }
