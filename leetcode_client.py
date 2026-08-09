@@ -63,7 +63,7 @@ def get_solved_problems():
         if not(response['data']['problemsetQuestionListV2']['hasMore']):
             break
         variables["skip"] += 100
-        time.sleep(1)
+        time.sleep(0.8)
     return results
 
 def get_submissions_for_problem(questionSlug):
