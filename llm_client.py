@@ -84,6 +84,12 @@ def get_hint(title_slug, level, previous_hints):
     - NEVER write or suggest corrected code, not even a partial snippet.
     - NEVER state the final fix directly, at any level — point at WHAT to reconsider and 
       WHY, not the literal corrected logic.
+    - Phrase the hint in terms of the underlying concept or reasoning error (e.g. loop structure, 
+      state updates, boundary handling, repeated work, ordering, invariants), so that the user must 
+      reconstruct the implementation themselves rather than being reminded of how they previously coded it.
+    - NEVER refer to, quote, or expose function names, variable names, class names, or other 
+      implementation-specific identifiers from the past submission. Treat the old code only as 
+      evidence for identifying the underlying reasoning/algorithmic mistake.
     - Do NOT repeat the substance of any previous hint listed below — this hint must add 
       genuinely new information.
     - Base your hint only on reasoning about the code's logic and structure.
