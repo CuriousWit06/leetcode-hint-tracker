@@ -4,6 +4,7 @@ from pydantic import BaseModel
 from llm_client import get_hint
 from sync import sync_db
 from db import create_db
+from fastapi.staticfiles import StaticFiles
 
 app = FastAPI()
 
@@ -30,3 +31,5 @@ def create():
     create_db()
     sync_db()
     return {"status": "initialisation complete"}
+
+app.mount("/", StaticFiles(directory="static", html=True), name="static")

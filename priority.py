@@ -30,7 +30,7 @@ def get_due_problems():
         days_since_last = (present - last_accept_timestamp) // 86400
         score = compute_score(attempts_before_ac, difficulty, days_since_last)
 
-        result.append([title_slug, title, score])
+        result.append([title_slug, title, score, difficulty])
 
     result.sort(key = lambda x: x[2], reverse = True)
     return result
