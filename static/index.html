@@ -589,7 +589,7 @@
     status.textContent = 'syncing…';
 
     try {
-      const res = await fetch(`${API}/sync`, { method: 'POST' });
+      const res = await fetch(`${API}/initialise`, { method: 'POST' });
       if (!res.ok) throw new Error();
       status.textContent = 'synced';
       showToast('Sync complete. Reloading problems…', 'success');
