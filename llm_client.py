@@ -28,6 +28,9 @@ def get_hint(title_slug, level, previous_hints):
         query += "No past failed submissions found for this problem."
     for i in range(len(result)):
         sid, status, lang, submitted_at, code, codeop, exop, lasttc, runerr, comperr = result[i]
+        lasttc = lasttc[:500] if lasttc else ""
+        codeop = codeop[:1000] if codeop else ""
+        exop = exop[:1000] if exop else ""
         if runerr is not None:
             query += f"""
             Attempt {i + 1} ({status}, {lang}):
