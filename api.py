@@ -11,7 +11,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins = ["https://leetcode-hint-tracker.vercel.app/"],
+    allow_origins = ["https://leetcode-hint-tracker.vercel.app"],
     allow_methods = ["GET", "POST"],
     allow_headers = ["*"]
 )
