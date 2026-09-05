@@ -5,8 +5,16 @@ from llm_client import get_hint
 from sync import sync_db
 from db import create_db
 from fastapi.staticfiles import StaticFiles
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins = ["https://leetcode-hint-tracker.vercel.app/"],
+    allow_methods = ["GET", "POST"],
+    allow_headers = ["*"]
+)
 
 @app.get("/problems/due")
 def get_due():
