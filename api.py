@@ -39,5 +39,3 @@ def create():
     create_db()
     sync_db()
     return {"status": "initialisation complete"}
-
-app.mount("/", StaticFiles(directory="static", html=True), name="static")
