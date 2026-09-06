@@ -65,5 +65,3 @@ On the first run, click on the ```sync``` button at the top right. Depending on 
 
 * Improvements in sync reliability and error handling.
 * Improvements in hint accuracy on complex problems.
-* Multi-user support with proper authentication.
-* Deployment.
