@@ -1,13 +1,13 @@
-from openai import OpenAI
+from google import genai
+from google.genai import types
 from dotenv import load_dotenv
 import psycopg2
 import os
 
 load_dotenv()
 
-client = OpenAI(
-    base_url = "https://router.huggingface.co/v1",
-    api_key = os.environ.get("HF_TOKEN")
+client = genai.Client(
+    api_key = os.environ.get("GEMINI_API_KEY")
 )
 
 def get_hint(title_slug, level, previous_hints):
@@ -106,12 +106,12 @@ def get_hint(title_slug, level, previous_hints):
       formatting, no restating the level number.
     """
 
-    response = client.chat.completions.create(
-        model = "meta-llama/Llama-3.3-70B-Instruct",
-        messages = [
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": user_message}
-        ]
+    response = client.models.generate_content(
+        model = "gemini-4-hydrogen",
+        contents = user_message,
+        config = types.GenerateContentConfig(
+            system_instruction = system_prompt
+        )
     )
 
-    return response.choices[0].message.content
+    return response.text
