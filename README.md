@@ -16,14 +16,16 @@ This is where this tool steps in. When you get stuck on a revisit, it pulls up y
 
 * **Priority scoring**: All of the solved problems are ranked by a weighted formula, combining attempts-before-AC (measure of how much you struggled), difficulty tag of the question, and the days since you last attempted that question. Naturally, problems that you took more submissions to get an AC for, those that were tagged to be harder, and those that were last attempted long back rank higher.
 
-* **Hint engine**: When you click "Get hint" on a problem, the tool fetches upto 4 of your most recent failed submissions for that problem from the database, formats the code and failure context, and sends it to an LLM with a carefully engineered prompt. Upto 4 hints are available for a problem, each escalating in specificity. Previous hints are passed with each new hint request so that the model never repeats itself.
+* **Hint engine**: When you click "Get hint" on a problem, the tool fetches upto 4 of your most recent failed submissions for that problem from the database, formats the code and failure context, and sends it to Google Gemini 4 Hydrogen via the Gemini API, along with a carefully engineered prompt. Upto 4 hints are available for a problem, each escalating in specificity. Previous hints are passed with each new hint request so that the model never repeats itself.
 
 
 ### Tech Stack
 
 * **Backend**: Python, FastAPI
 * **Database**: PostgreSQL via Neon (serverless)
-* **LLM**: Llama-3.3-70B-Instruct via Hugging Face Serverless Inference API
+* **LLM**: Gemini 4 Hydrogen via Google Gemini API (Google GenAI SDK)
+
+> **Note**: The hint engine was migrated from Hugging Face Serverless Inference to Google Gemini API due to changes in Hugging Face's free inference credit availability.
 
 
 ### Setup
@@ -37,13 +39,16 @@ pip install -r requirements.txt
 Create a ```.env``` file in the project root, containing: 
 ```
 DATABASE_URL = your_neon_connection_string
-HF_TOKEN = your_huggingface_token
+GEMINI_API_KEY = your_google_ai_studio_api_key
 LEETCODE_SESSION = your_leetcode_session_cookie
 csrftoken = your_leetcode_csrf_token
 ```
 
 * How to get your LeetCode cookies: 
 Log in to https://leetcode.com, open DevTools -> Applications -> Cookies -> leetcode.com, and copy the values for ```LEETCODE_SESSION``` and ```csrftoken```.
+
+* Getting your Gemini API Key:
+Generate an API Key through [Google AI Studio](https://aistudio.google.com/api-keys).
 
 * Start the server: 
 ```uvicorn api:app --reload```
